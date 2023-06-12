@@ -27,7 +27,7 @@ const Home = ()=>{
 
     return (
         <>
-            <section className="HOME">
+            <section id="HOME">
                 <div className="coin_list_home">
                     {
                         initialCoins ? 
