@@ -1,0 +1,15 @@
+@mixin flex_container(
+    $direction: initial,    
+    $align: initial,
+    $justify: initial,
+    $wrap: initial,
+    $row_gap: 0,
+    $column_gap: 0
+){
+    flex-direction: $direction;
+    align-items: $align;
+    justify-content: $justify;
+    flex-wrap: $wrap;
+    row-gap: $row_gap;
+    column-gap: $column_gap;
+}
