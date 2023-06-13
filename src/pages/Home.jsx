@@ -37,9 +37,6 @@ const Home = ()=>{
     return (
         <>
             <section id="HOME">
-
-                <h1>Default Coin: { baseCoin }</h1>
-
                 <div className="coin_list_home">
                     
                     <React.Suspense fallback={<h1>Carregando...</h1>}>
@@ -67,6 +64,11 @@ const Home = ()=>{
 
             <section id="COINTABLE">
                 <div className="container_cointable">
+
+                    <div className="settings_cointable">
+                        <strong>Default Coin: { baseCoin }</strong>
+                    </div>
+
                     <div className="informations_cointable">
                         <span>Coin</span>
                         <span>Ask</span>
@@ -75,6 +77,23 @@ const Home = ()=>{
                     </div>
                     
                     <React.Suspense>
+
+                    {
+                        (initialCoins) ? 
+                        initialCoins.map(( { code, ask, bid, varBid } )=>{
+                            return (
+                                <CoinList
+                                    key={`${code}_card`}
+                                    name={code}
+                                    priceAsk={ask}
+                                    priceBid={bid}
+                                    varBid={varBid}
+                                />
+                            );
+                        })
+                        : <strong>There are no coins</strong>
+                    }
+                    
                     {
                         (principalCoins) ? 
                         principalCoins.map(( { code, ask, bid, varBid } )=>{
