@@ -1,11 +1,13 @@
 import React from "react";
+import arrow_down from "../img/icons/arrow_down.png";
 
 const Home = ()=>{
 
+    const CoinCard = React.lazy( ()=> import("../components/CoinCard") );
+    const CoinList = React.lazy( ()=> import("../components/CoinInList") );
+
     const baseURL = "https://economia.awesomeapi.com.br/last/";
     const baseCoin = "BRL";
-
-    const CoinCard = React.lazy( ()=> import("../components/CoinCard") );
 
     const [initialCoins, setInitialCoins] = React.useState([]);
 
@@ -26,9 +28,16 @@ const Home = ()=>{
         })();
     }, []);
 
+    //
+
+    
+
     return (
         <>
             <section id="HOME">
+
+                <h1>Default Coin: { baseCoin }</h1>
+
                 <div className="coin_list_home">
                     
                     <React.Suspense fallback={<h1>Carregando...</h1>}>
@@ -47,6 +56,16 @@ const Home = ()=>{
                         : <strong>There are no coins</strong>
                     }
                     </React.Suspense>
+                </div>
+
+                <button>
+                    <img src={arrow_down} alt="Arrow Down" />
+                </button>
+            </section>
+
+            <section id="COINTABLE">
+                <div className="container_coin_table">
+
                 </div>
             </section>
         </>
