@@ -1,10 +1,11 @@
 import React from "react";
-import CoinCard from "../components/CoinCard";
 
 const Home = ()=>{
 
     const baseURL = "https://economia.awesomeapi.com.br/last/";
     const baseCoin = "BRL";
+
+    const CoinCard = React.lazy( ()=> import("../components/CoinCard") );
 
     const [initialCoins, setInitialCoins] = React.useState([]);
 
@@ -29,6 +30,8 @@ const Home = ()=>{
         <>
             <section id="HOME">
                 <div className="coin_list_home">
+                    
+                    <React.Suspense fallback={<h1>Carregando...</h1>}>
                     {
                         initialCoins ? 
                         initialCoins.map(( { code, bid, varBid } )=>{
@@ -43,6 +46,7 @@ const Home = ()=>{
                         })
                         : <strong>There are no coins</strong>
                     }
+                    </React.Suspense>
                 </div>
             </section>
         </>
