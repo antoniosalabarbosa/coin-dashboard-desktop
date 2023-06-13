@@ -7,7 +7,9 @@ const Home = ()=>{
     const CoinList = React.lazy( ()=> import("../components/CoinInList") );
 
     const baseURL = "https://economia.awesomeapi.com.br/last/";
-    const baseCoin = "BRL";
+    const [baseCoin] = React.useState("BRL");
+    const [i_coins] = React.useState("USD,EUR,BTC");
+    const [p_coins] = React.useState("CAD,GBP,JPY,ARS,RUB");
 
     const [initialCoins, setInitialCoins] = React.useState([]);
     const [principalCoins, setPrincipalCoins] = React.useState([]);
@@ -20,11 +22,16 @@ const Home = ()=>{
     };
 
     const getInitialCoins = async () => {
-        setInitialCoins([...Object.values(await API("USD,EUR,BTC"))]);
+        setInitialCoins([...Object.values(await API(i_coins))]);
     }
+
+    const getPrincipalCoins = async ()=>{
+        setPrincipalCoins([...Object.values(await API(p_coins))])
+    };
 
     React.useEffect(()=>{
         getInitialCoins();
+        getPrincipalCoins();
     }, []);
     
     return (
@@ -41,7 +48,7 @@ const Home = ()=>{
                         initialCoins.map(( { code, bid, varBid } )=>{
                             return (
                                 <CoinCard
-                                    key={code}
+                                    key={`${code}_card`}
                                     name={code}
                                     price={bid}
                                     varBid={varBid}
@@ -59,8 +66,32 @@ const Home = ()=>{
             </section>
 
             <section id="COINTABLE">
-                <div className="container_coin_table">
+                <div className="container_cointable">
+                    <div className="informations_cointable">
+                        <span>Coin</span>
+                        <span>Ask</span>
+                        <span>Bid</span>
+                        <span>Variation bid</span>
+                    </div>
                     
+                    <React.Suspense>
+                    {
+                        (principalCoins) ? 
+                        principalCoins.map(( { code, ask, bid, varBid } )=>{
+                            return (
+                                <CoinList
+                                    key={`${code}_card`}
+                                    name={code}
+                                    priceAsk={ask}
+                                    priceBid={bid}
+                                    varBid={varBid}
+                                />
+                            );
+                        })
+
+                        : <strong>There are no coins</strong>
+                    }
+                    </React.Suspense>
                 </div>
             </section>
         </>
