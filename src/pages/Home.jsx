@@ -10,6 +10,7 @@ const Home = ()=>{
     const baseCoin = "BRL";
 
     const [initialCoins, setInitialCoins] = React.useState([]);
+    const [principalCoins, setPrincipalCoins] = React.useState([]);
 
     const API = async ( coin, coinin = baseCoin )=>{
         const response = await fetch(`${baseURL + coin}-${coinin}`)
@@ -18,20 +19,14 @@ const Home = ()=>{
         return response;
     };
 
+    const getInitialCoins = async () => {
+        setInitialCoins([...Object.values(await API("USD,EUR,BTC"))]);
+    }
+
     React.useEffect(()=>{
-        (async ()=>{
-            setInitialCoins([
-                Object.values(await API("USD"))[0],
-                Object.values(await API("EUR"))[0],
-                Object.values(await API("BTC"))[0]
-            ]);
-        })();
+        getInitialCoins();
     }, []);
-
-    //
-
     
-
     return (
         <>
             <section id="HOME">
@@ -65,7 +60,7 @@ const Home = ()=>{
 
             <section id="COINTABLE">
                 <div className="container_coin_table">
-
+                    
                 </div>
             </section>
         </>
